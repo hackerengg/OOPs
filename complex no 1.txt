@@ -1,0 +1,67 @@
+#include<iostream>
+using namespace std;
+
+class complex {
+private:
+    float real;
+    float img;
+
+public:
+    complex(float r=0, float i=0) : real(r), img(i) {}  // Correct initialization list
+
+    complex operator+(const complex& other) const;  // Corrected operator+ declaration
+    complex operator-(const complex& other) const;  // Corrected operator- declaration
+    complex operator*(const complex& other) const;
+
+    friend ostream& operator<<(ostream& out, const complex& loc);  // Corrected variable name
+    friend istream& operator>>(istream& inp, complex& loc);
+};
+
+complex complex::operator+(const complex& other) const {  // Corrected operator+ definition
+    return complex(real + other.real, img + other.img);
+}
+
+complex complex::operator-(const complex& other) const {  // Corrected operator- definition
+    return complex(real - other.real, img - other.img);
+}
+
+complex complex::operator*(const complex& other) const {
+    return complex(real * other.real - img * other.img, real * other.img + img * other.real);
+}
+
+ostream& operator<<(ostream& out, const complex& loc) {  // Corrected function name and variable name
+    if (loc.img >= 0) {
+        out << loc.real << "+" << loc.img << "i";
+    } else {
+        out << loc.real << loc.img << "i";
+    }
+    return out;
+}
+
+istream& operator>>(istream& inp, complex& loc) {
+    cout << "Enter real part: ";
+    inp >> loc.real;
+    cout << "Enter imaginary part: ";
+    inp >> loc.img;
+    return inp;
+}
+
+int main() {
+    complex c1, c2, c3;
+
+    cout << "Enter details for complex number 1:\n";
+    cin >> c1;
+    cout << "Enter details for complex number 2:\n";
+    cin >> c2;
+
+    c3 = c1 + c2;
+    cout << "Sum: " << c3 << endl;
+
+    c3 = c1 - c2;
+    cout << "Difference: " << c3 << endl;
+
+    c3 = c1 * c2;
+    cout << "Product: " << c3 << endl;
+
+    return 0;
+}

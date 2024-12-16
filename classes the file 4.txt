@@ -1,0 +1,46 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+class file
+{
+    char name[40];
+    int emp_id;
+    float salary;
+public:
+    void accept()
+    {
+        cin >> name;
+        cin >> emp_id;
+        cin >> salary;
+    }
+    void display()
+    {
+        cout << "\n" << name << "\t" << emp_id << "\t" << salary;
+    }
+};
+int main()
+{
+    file obj[5];
+    fstream f;
+    int i, n;
+    f.open("input.txt", ios::out); 
+    cout << "\nHow many employee information want to store: ";
+    cin >> n;
+    cout << "\nEnter information of employees";
+    for(i = 0; i < n; i++)
+    {
+        cout << "\nEnter information of employee " << i + 1 << ": ";
+        obj[i].accept();
+        f.write((char*) &obj[i], sizeof(obj[i])); 
+    }
+    f.close();
+    f.open("input.txt", ios::in); 
+    cout << "\nEnter information of employees is:";
+    for(i = 0; i < n; i++)
+    {
+        f.read((char*) &obj[i], sizeof(obj[i])); 
+        obj[i].display();
+    }
+    f.close();
+    return 0;
+}
